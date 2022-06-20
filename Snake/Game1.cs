@@ -38,6 +38,8 @@ namespace Snake
         private bool WaitingForAutoMove;
         private float AutoMoveTimerStart;
 
+        private bool FoodIsSpawnedOnGrid;
+
         private KeyboardState PreviousKeyboardState = Keyboard.GetState();
         private KeyboardState CurrentKeyboardState = Keyboard.GetState();
 
@@ -59,12 +61,14 @@ namespace Snake
             gridTexture2 = Content.Load<Texture2D>("grid2");
             SnakeTexture = Content.Load<Texture2D>("snake");
             SnakeBodyTexture = Content.Load<Texture2D>("snake-body");
+            FoodTexture = Content.Load<Texture2D>("food");
 
             PlayerX = 6;
             PlayerY = 9;
             SnakeLength = 5;
             SnakeCoordinateHistory = InitializeSnakeCoordinateHistory(SnakeLength, PlayerX, PlayerY);
 
+            FoodIsSpawnedOnGrid = false;
 
             grid = InitializeGameTiles();
             EntitiesGrid = InstantiateEntityMap();
@@ -98,6 +102,11 @@ namespace Snake
                     MovePlayerInPlayerDirection();
                     WaitingForAutoMove = false;
                 }
+            }
+
+            if (!FoodIsSpawnedOnGrid)
+            {
+                SpawnFood();
             }
             KeyboardInput();
             AddSnakeBodiesToGrid();
@@ -206,10 +215,8 @@ namespace Snake
 
         private void MovePlayer(int newX, int newY)
         {
-            if(EntitiesGrid[newX, newY]?.EntityType == GameEntity.ENTITY_TYPE.SNAKE_BODY)
-            {
-                GameOver();
-            }
+            CheckCollisionsWhenMoving(newX, newY);
+
             SnakeCoordinateHistory = UpdateSnakeCoordinateHistory(PlayerX, PlayerY);
             EntitiesGrid[PlayerX, PlayerY] = null;
             PlayerX = newX;
@@ -223,7 +230,7 @@ namespace Snake
             var NewHistory = new List<Vector2>();
 
             NewHistory.Add(PreviousCoordinate);
-            for(int i = 0; i < SnakeLength - 1 && i < SnakeCoordinateHistory.Count; i++)
+            for (int i = 0; i < SnakeLength - 1 && i < SnakeCoordinateHistory.Count; i++)
             {
                 NewHistory.Add(SnakeCoordinateHistory[i]);
             }
@@ -231,6 +238,23 @@ namespace Snake
             RemoveSnakeBodiesFromGrid();
 
             return NewHistory;
+        }
+
+        private void CheckCollisionsWhenMoving(int newX, int newY)
+        {
+            var entity = EntitiesGrid[newX, newY];
+            if (entity == null)
+                return;
+
+            if (entity.EntityType == GameEntity.ENTITY_TYPE.SNAKE_BODY)
+            {
+                GameOver();
+            }
+            else if(entity.EntityType == GameEntity.ENTITY_TYPE.FOOD)
+            {
+                SnakeLength += 1;
+                FoodIsSpawnedOnGrid = false;
+            }
         }
 
         private Snake GenerateSnakeAtCoordinate(int x, int y)
@@ -326,6 +350,30 @@ namespace Snake
         private void GameOver()
         {
             IsGameOver = true;
+        }
+
+        private void SpawnFood()
+        {
+            var random = new System.Random();
+            bool foodIsSpawned = false;
+            while (!foodIsSpawned)
+            {
+                int randomX = random.Next(0, GridSize);
+                int randomY = random.Next(0, GridSize);
+                if(EntitiesGrid[randomX,randomY] == null)
+                {
+                    EntitiesGrid[randomX, randomY] = CreateFoodEntity();
+                    foodIsSpawned = true;
+                }
+            }
+
+            FoodIsSpawnedOnGrid = true;
+
+        }
+
+        private Food CreateFoodEntity()
+        {
+            return new Food(0, 0, FoodTexture, GameEntity.ENTITY_TYPE.FOOD);
         }
     }
 }
