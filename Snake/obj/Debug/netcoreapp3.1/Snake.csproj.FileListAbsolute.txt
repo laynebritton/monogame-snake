@@ -52,3 +52,4 @@ G:\monogame test\Snake\monogame-snake\Snake\Snake\obj\Debug\netcoreapp3.1\Snake.
 G:\monogame test\Snake\monogame-snake\Snake\Snake\obj\Debug\netcoreapp3.1\Snake.dll
 G:\monogame test\Snake\monogame-snake\Snake\Snake\obj\Debug\netcoreapp3.1\Snake.pdb
 G:\monogame test\Snake\monogame-snake\Snake\Snake\obj\Debug\netcoreapp3.1\Snake.genruntimeconfig.cache
+G:\monogame test\Snake\Snake\Snake\bin\Debug\netcoreapp3.1\Content\snake-body.xnb

@@ -16,6 +16,7 @@ namespace Snake
         Texture2D gridTexture2;
 
         Texture2D SnakeTexture;
+        Texture2D SnakeBodyTexture;
         Texture2D FoodTexture;
 
         GridTile[,] grid;
@@ -24,9 +25,12 @@ namespace Snake
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private int PlayerX = 0;
-        private int PlayerY = 0;
+        private int PlayerX;
+        private int PlayerY;
         private Directions.DIRECTIONS PlayerDirection = Directions.DIRECTIONS.RIGHT;
+
+        private int SnakeLength;
+        private List<Vector2> SnakeCoordinateHistory;
 
         private bool IsGameOver = false;
 
@@ -54,6 +58,13 @@ namespace Snake
             gridTexture1 = Content.Load<Texture2D>("grid1");
             gridTexture2 = Content.Load<Texture2D>("grid2");
             SnakeTexture = Content.Load<Texture2D>("snake");
+            SnakeBodyTexture = Content.Load<Texture2D>("snake-body");
+
+            PlayerX = 6;
+            PlayerY = 9;
+            SnakeLength = 5;
+            SnakeCoordinateHistory = InitializeSnakeCoordinateHistory(SnakeLength, PlayerX, PlayerY);
+
 
             grid = InitializeGameTiles();
             EntitiesGrid = InstantiateEntityMap();
@@ -89,6 +100,7 @@ namespace Snake
                 }
             }
             KeyboardInput();
+            AddSnakeBodiesToGrid();
             UpdateEntityGridLocations();
             base.Update(gameTime);
         }
@@ -145,6 +157,10 @@ namespace Snake
             {
                 ChangeSnakeDirection(Directions.DIRECTIONS.UP);
             }
+            if (CurrentKeyboardState.IsKeyDown(Keys.Space) && !PreviousKeyboardState.IsKeyDown(Keys.Space))
+            {
+                SnakeLength += 1;
+            }
         }
 
 
@@ -190,11 +206,31 @@ namespace Snake
 
         private void MovePlayer(int newX, int newY)
         {
+            if(EntitiesGrid[newX, newY]?.EntityType == GameEntity.ENTITY_TYPE.SNAKE_BODY)
+            {
+                GameOver();
+            }
+            SnakeCoordinateHistory = UpdateSnakeCoordinateHistory(PlayerX, PlayerY);
             EntitiesGrid[PlayerX, PlayerY] = null;
             PlayerX = newX;
             PlayerY = newY;
             EntitiesGrid[PlayerX, PlayerY] = GenerateSnakeAtCoordinate(PlayerX, PlayerY);
+        }
 
+        private List<Vector2> UpdateSnakeCoordinateHistory(int startingX, int startingY)
+        {
+            var PreviousCoordinate = new Vector2(startingX, startingY);
+            var NewHistory = new List<Vector2>();
+
+            NewHistory.Add(PreviousCoordinate);
+            for(int i = 0; i < SnakeLength - 1 && i < SnakeCoordinateHistory.Count; i++)
+            {
+                NewHistory.Add(SnakeCoordinateHistory[i]);
+            }
+
+            RemoveSnakeBodiesFromGrid();
+
+            return NewHistory;
         }
 
         private Snake GenerateSnakeAtCoordinate(int x, int y)
@@ -244,10 +280,52 @@ namespace Snake
             }
         }
 
+        private void RemoveSnakeBodiesFromGrid()
+        {
+            for (var i = 0; i < GridSize; i++)
+            {
+                for (var j = 0; j < GridSize; j++)
+                {
+                    if (EntitiesGrid[i, j] != null)
+                    {
+                        if (EntitiesGrid[i, j].EntityType == GameEntity.ENTITY_TYPE.SNAKE_BODY)
+                        {
+                            EntitiesGrid[i, j] = null;
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<Vector2> InitializeSnakeCoordinateHistory(int length, int startingX, int startingY)
+        {
+            var coordinateHistory = new List<Vector2>();
+
+            for (int i = 1; i < length + 1; i++)
+            {
+                coordinateHistory.Add(new Vector2(startingX - i, startingY));
+            }
+
+            return coordinateHistory;
+        }
+
+        private void AddSnakeBodiesToGrid()
+        {
+            foreach (var body in SnakeCoordinateHistory)
+            {
+                EntitiesGrid[(int)body.X, (int)body.Y] = new SnakeBody((int)body.X * TileSize, (int)body.Y * TileSize, SnakeBodyTexture, GameEntity.ENTITY_TYPE.SNAKE_BODY);
+            }
+        }
+
         private GameEntity[,] InstantiateEntityMap()
         {
             GameEntity[,] entities = new GameEntity[GridSize, GridSize];
             return entities;
+        }
+
+        private void GameOver()
+        {
+            IsGameOver = true;
         }
     }
 }

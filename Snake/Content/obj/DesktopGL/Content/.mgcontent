@@ -8,8 +8,10 @@
     <File>G:/monogame test/Snake/Snake/Snake/Content/grid1.png</File>
     <File>G:/monogame test/Snake/Snake/Snake/Content/grid2.png</File>
     <File>G:/monogame test/Snake/Snake/Snake/Content/snake.png</File>
+    <File>G:/monogame test/Snake/Snake/Snake/Content/snake-body.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
