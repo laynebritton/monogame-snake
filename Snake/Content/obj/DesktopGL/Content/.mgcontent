@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>G:/monogame test/Snake/Snake/Snake/Content/food.png</File>
+    <File>G:/monogame test/Snake/Snake/Snake/Content/grid1.png</File>
+    <File>G:/monogame test/Snake/Snake/Snake/Content/grid2.png</File>
+    <File>G:/monogame test/Snake/Snake/Snake/Content/snake.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>

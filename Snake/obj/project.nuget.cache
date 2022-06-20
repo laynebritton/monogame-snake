@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "p8V/cEDGZjPXn+c/VuUjjYcoWQYR33re1xDDojkGl546Fx0+Kgrb3Bx1t5ZXarmQvaAYcwtsEBC8466cUBoLgg==",
+  "success": true,
+  "projectFilePath": "G:\\monogame test\\Snake\\Snake\\Snake\\Snake.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\layne_000\\.nuget\\packages\\monogame.content.builder.task\\3.8.0.1641\\monogame.content.builder.task.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\layne_000\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.0.1641\\monogame.framework.desktopgl.3.8.0.1641.nupkg.sha512",
+    "C:\\Users\\layne_000\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.13\\microsoft.netcore.app.host.win-x64.3.1.13.nupkg.sha512"
+  ],
+  "logs": []
+}

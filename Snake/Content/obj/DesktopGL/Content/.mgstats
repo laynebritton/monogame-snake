@@ -1,0 +1,5 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"G:/monogame test/Snake/Snake/Snake/Content/food.png","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/food.xnb","TextureProcessor","Texture2DContent",292,10085,0.1997154
+"G:/monogame test/Snake/Snake/Snake/Content/grid1.png","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/grid1.xnb","TextureProcessor","Texture2DContent",142,10085,0.0018885
+"G:/monogame test/Snake/Snake/Snake/Content/grid2.png","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/grid2.xnb","TextureProcessor","Texture2DContent",142,10085,0.0017623
+"G:/monogame test/Snake/Snake/Snake/Content/snake.png","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/snake.xnb","TextureProcessor","Texture2DContent",142,10085,0.0014924
