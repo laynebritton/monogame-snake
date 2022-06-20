@@ -30,6 +30,10 @@ namespace Snake
 
         private bool IsGameOver = false;
 
+        private float AutoMoveDelay;
+        private bool WaitingForAutoMove;
+        private float AutoMoveTimerStart;
+
         private KeyboardState PreviousKeyboardState = Keyboard.GetState();
         private KeyboardState CurrentKeyboardState = Keyboard.GetState();
 
@@ -54,6 +58,10 @@ namespace Snake
             grid = InitializeGameTiles();
             EntitiesGrid = InstantiateEntityMap();
             EntitiesGrid[PlayerX, PlayerY] = GenerateSnakeAtCoordinate(PlayerX, PlayerY);
+
+            AutoMoveDelay = 500; // Milliseconds
+            WaitingForAutoMove = false;
+            AutoMoveTimerStart = 0;
             base.Initialize();
         }
 
@@ -67,6 +75,19 @@ namespace Snake
             if (IsGameOver)
                 return;
 
+            if (!WaitingForAutoMove)
+            {
+                AutoMoveTimerStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
+                WaitingForAutoMove = true;
+            }
+            else if (WaitingForAutoMove)
+            {
+                if ((float)gameTime.TotalGameTime.TotalMilliseconds - AutoMoveTimerStart > AutoMoveDelay)
+                {
+                    MovePlayerInPlayerDirection();
+                    WaitingForAutoMove = false;
+                }
+            }
             KeyboardInput();
             UpdateEntityGridLocations();
             base.Update(gameTime);
@@ -107,40 +128,22 @@ namespace Snake
 
             if (CurrentKeyboardState.IsKeyDown(Keys.Right) && !PreviousKeyboardState.IsKeyDown(Keys.Right))
             {
-                if (PlayerX < GridSize - 1)
-                {
-                    ChangeSnakeDirection(Directions.DIRECTIONS.RIGHT);
-                }
+                ChangeSnakeDirection(Directions.DIRECTIONS.RIGHT);
             }
 
             if (CurrentKeyboardState.IsKeyDown(Keys.Left) && !PreviousKeyboardState.IsKeyDown(Keys.Left))
             {
-
-                if (PlayerX > 0)
-                {
-                    ChangeSnakeDirection(Directions.DIRECTIONS.LEFT);
-                }
-
+                ChangeSnakeDirection(Directions.DIRECTIONS.LEFT);
             }
 
             if (CurrentKeyboardState.IsKeyDown(Keys.Down) && !PreviousKeyboardState.IsKeyDown(Keys.Down))
             {
-
-                if (PlayerY < GridSize - 1)
-                {
-                    ChangeSnakeDirection(Directions.DIRECTIONS.DOWN);
-                }
-
+                ChangeSnakeDirection(Directions.DIRECTIONS.DOWN);
             }
 
             if (CurrentKeyboardState.IsKeyDown(Keys.Up) && !PreviousKeyboardState.IsKeyDown(Keys.Up))
             {
-
-                if (PlayerY > 0)
-                {
-                    ChangeSnakeDirection(Directions.DIRECTIONS.UP);
-                }
-
+                ChangeSnakeDirection(Directions.DIRECTIONS.UP);
             }
         }
 
@@ -148,22 +151,40 @@ namespace Snake
         private void ChangeSnakeDirection(Directions.DIRECTIONS direction)
         {
             PlayerDirection = direction;
+            MovePlayerInPlayerDirection();
+        }
+
+        private void MovePlayerInPlayerDirection()
+        {
 
             if (PlayerDirection == Directions.DIRECTIONS.RIGHT)
             {
-                MovePlayer(PlayerX + 1, PlayerY);
+                if (PlayerX < GridSize - 1)
+                {
+                    MovePlayer(PlayerX + 1, PlayerY);
+                }
             }
             else if (PlayerDirection == Directions.DIRECTIONS.LEFT)
             {
-                MovePlayer(PlayerX - 1, PlayerY);
+                if (PlayerX > 0)
+                {
+                    MovePlayer(PlayerX - 1, PlayerY);
+                }
             }
             else if (PlayerDirection == Directions.DIRECTIONS.UP)
             {
-                MovePlayer(PlayerX, PlayerY - 1);
+                if (PlayerY > 0)
+                {
+                    MovePlayer(PlayerX, PlayerY - 1);
+                }
             }
             else if (PlayerDirection == Directions.DIRECTIONS.DOWN)
             {
-                MovePlayer(PlayerX, PlayerY + 1);
+
+                if (PlayerY < GridSize - 1)
+                {
+                    MovePlayer(PlayerX, PlayerY + 1);
+                }
             }
         }
 
