@@ -184,37 +184,31 @@ namespace Snake
 
             if (PlayerDirection == Directions.DIRECTIONS.RIGHT)
             {
-                if (PlayerX < GridSize - 1)
-                {
-                    MovePlayer(PlayerX + 1, PlayerY);
-                }
+                MovePlayer(PlayerX + 1, PlayerY);
             }
             else if (PlayerDirection == Directions.DIRECTIONS.LEFT)
             {
-                if (PlayerX > 0)
-                {
-                    MovePlayer(PlayerX - 1, PlayerY);
-                }
+
+                MovePlayer(PlayerX - 1, PlayerY);
             }
             else if (PlayerDirection == Directions.DIRECTIONS.UP)
             {
-                if (PlayerY > 0)
-                {
-                    MovePlayer(PlayerX, PlayerY - 1);
-                }
+                MovePlayer(PlayerX, PlayerY - 1);
             }
             else if (PlayerDirection == Directions.DIRECTIONS.DOWN)
             {
 
-                if (PlayerY < GridSize - 1)
-                {
-                    MovePlayer(PlayerX, PlayerY + 1);
-                }
+                MovePlayer(PlayerX, PlayerY + 1);
             }
         }
 
         private void MovePlayer(int newX, int newY)
         {
+            if (newX > GridSize - 1 || newX < 0 || newY > GridSize - 1 || newY < 0)
+            {
+                GameOver();
+                return;
+            }
             CheckCollisionsWhenMoving(newX, newY);
 
             SnakeCoordinateHistory = UpdateSnakeCoordinateHistory(PlayerX, PlayerY);
@@ -250,11 +244,12 @@ namespace Snake
             {
                 GameOver();
             }
-            else if(entity.EntityType == GameEntity.ENTITY_TYPE.FOOD)
+            else if (entity.EntityType == GameEntity.ENTITY_TYPE.FOOD)
             {
                 SnakeLength += 1;
                 FoodIsSpawnedOnGrid = false;
             }
+
         }
 
         private Snake GenerateSnakeAtCoordinate(int x, int y)
@@ -360,7 +355,7 @@ namespace Snake
             {
                 int randomX = random.Next(0, GridSize);
                 int randomY = random.Next(0, GridSize);
-                if(EntitiesGrid[randomX,randomY] == null)
+                if (EntitiesGrid[randomX, randomY] == null)
                 {
                     EntitiesGrid[randomX, randomY] = CreateFoodEntity();
                     foodIsSpawned = true;
