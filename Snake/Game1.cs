@@ -132,6 +132,9 @@ namespace Snake
             DrawEntityGrid();
             DrawScoreCount();
 
+            if (IsGameOver)
+                DrawGameOverText();
+
             base.Draw(gameTime);
         }
 
@@ -262,7 +265,7 @@ namespace Snake
             {
                 eat.Play();
                 AutoMoveDelay -= 25;
-                if(AutoMoveDelay < 17)
+                if (AutoMoveDelay < 17)
                 {
                     AutoMoveDelay = 17;
                 }
@@ -379,8 +382,11 @@ namespace Snake
                 int randomY = random.Next(0, GridSize - 1);
                 if (EntitiesGrid[randomX, randomY] == null)
                 {
-                    EntitiesGrid[randomX, randomY] = CreateFoodEntity();
-                    foodIsSpawned = true;
+                    if (randomX != PlayerX - 1 && randomX != PlayerX + 1 && randomY != PlayerY - 1 && randomX != PlayerY + 1)
+                    {
+                        EntitiesGrid[randomX, randomY] = CreateFoodEntity();
+                        foodIsSpawned = true;
+                    }
                 }
             }
 
@@ -392,6 +398,13 @@ namespace Snake
         {
             _spriteBatch.Begin();
             _spriteBatch.DrawString(font, "Score: " + score, new Vector2(1100, 100), Color.White);
+            _spriteBatch.End();
+        }
+
+        private void DrawGameOverText()
+        {
+            _spriteBatch.Begin();
+            _spriteBatch.DrawString(font, "Game over", new Vector2(1100, 200), Color.White);
             _spriteBatch.End();
         }
 
