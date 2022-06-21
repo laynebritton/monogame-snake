@@ -1,6 +1,9 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"G:/monogame test/Snake/Snake/Snake/Content/eat.wav","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/eat.xnb","SoundEffectProcessor","SoundEffectContent",18728,18789,0.7534054
 "G:/monogame test/Snake/Snake/Snake/Content/food.png","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/food.xnb","TextureProcessor","Texture2DContent",292,10085,0.1997154
 "G:/monogame test/Snake/Snake/Snake/Content/grid1.png","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/grid1.xnb","TextureProcessor","Texture2DContent",142,10085,0.1404183
 "G:/monogame test/Snake/Snake/Snake/Content/grid2.png","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/grid2.xnb","TextureProcessor","Texture2DContent",142,10085,0.0017623
+"G:/monogame test/Snake/Snake/Snake/Content/hurt.wav","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/hurt.xnb","SoundEffectProcessor","SoundEffectContent",35756,35817,0.9662323
+"G:/monogame test/Snake/Snake/Snake/Content/Score.spritefont","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/Score.xnb","FontDescriptionProcessor","SpriteFontContent",2008,267298,0.2695507
 "G:/monogame test/Snake/Snake/Snake/Content/snake.png","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/snake.xnb","TextureProcessor","Texture2DContent",142,10085,0.0014924
 "G:/monogame test/Snake/Snake/Snake/Content/snake-body.png","G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/snake-body.xnb","TextureProcessor","Texture2DContent",142,10085,0.1445637

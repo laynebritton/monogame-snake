@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFile>G:/monogame test/Snake/Snake/Snake/Content/hurt.wav</SourceFile>
+  <SourceTime>2022-06-20T20:34:25.4518835-04:00</SourceTime>
+  <DestFile>G:/monogame test/Snake/Snake/Snake/Content/bin/DesktopGL/Content/hurt.xnb</DestFile>
+  <DestTime>2022-06-20T20:35:27.7336578-04:00</DestTime>
+  <Importer>WavImporter</Importer>
+  <ImporterTime>2020-08-10T16:17:54-04:00</ImporterTime>
+  <Processor>SoundEffectProcessor</Processor>
+  <ProcessorTime>2020-08-10T16:17:54-04:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

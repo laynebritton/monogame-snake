@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Snake.Content;
@@ -18,6 +19,9 @@ namespace Snake
         Texture2D SnakeTexture;
         Texture2D SnakeBodyTexture;
         Texture2D FoodTexture;
+        SpriteFont font;
+        SoundEffect hurt;
+        SoundEffect eat;
 
         GridTile[,] grid;
         GameEntity[,] EntitiesGrid;
@@ -43,6 +47,8 @@ namespace Snake
         private KeyboardState PreviousKeyboardState = Keyboard.GetState();
         private KeyboardState CurrentKeyboardState = Keyboard.GetState();
 
+        private int score = 0;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -62,6 +68,9 @@ namespace Snake
             SnakeTexture = Content.Load<Texture2D>("snake");
             SnakeBodyTexture = Content.Load<Texture2D>("snake-body");
             FoodTexture = Content.Load<Texture2D>("food");
+            font = Content.Load<SpriteFont>("Score");
+            hurt = Content.Load<SoundEffect>("hurt");
+            eat = Content.Load<SoundEffect>("eat");
 
             PlayerX = 6;
             PlayerY = 9;
@@ -87,6 +96,7 @@ namespace Snake
 
         protected override void Update(GameTime gameTime)
         {
+            ExitGameKeyboardInput();
             if (IsGameOver)
                 return;
 
@@ -120,6 +130,7 @@ namespace Snake
 
             DrawGrid();
             DrawEntityGrid();
+            DrawScoreCount();
 
             base.Draw(gameTime);
         }
@@ -139,11 +150,14 @@ namespace Snake
             return grid;
         }
 
-        private void KeyboardInput()
+        private void ExitGameKeyboardInput()
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+        }
 
+        private void KeyboardInput()
+        {
             PreviousKeyboardState = CurrentKeyboardState;
             CurrentKeyboardState = Keyboard.GetState();
 
@@ -246,7 +260,9 @@ namespace Snake
             }
             else if (entity.EntityType == GameEntity.ENTITY_TYPE.FOOD)
             {
+                eat.Play();
                 SnakeLength += 1;
+                score += 1;
                 FoodIsSpawnedOnGrid = false;
             }
 
@@ -344,6 +360,7 @@ namespace Snake
 
         private void GameOver()
         {
+            hurt.Play();
             IsGameOver = true;
         }
 
@@ -364,6 +381,13 @@ namespace Snake
 
             FoodIsSpawnedOnGrid = true;
 
+        }
+
+        private void DrawScoreCount()
+        {
+            _spriteBatch.Begin();
+            _spriteBatch.DrawString(font, "Score: " + score, new Vector2(1100, 100), Color.White);
+            _spriteBatch.End();
         }
 
         private Food CreateFoodEntity()
