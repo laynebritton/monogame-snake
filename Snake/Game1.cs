@@ -261,6 +261,11 @@ namespace Snake
             else if (entity.EntityType == GameEntity.ENTITY_TYPE.FOOD)
             {
                 eat.Play();
+                AutoMoveDelay -= 25;
+                if(AutoMoveDelay < 17)
+                {
+                    AutoMoveDelay = 17;
+                }
                 SnakeLength += 1;
                 score += 1;
                 FoodIsSpawnedOnGrid = false;
@@ -370,8 +375,8 @@ namespace Snake
             bool foodIsSpawned = false;
             while (!foodIsSpawned)
             {
-                int randomX = random.Next(0, GridSize);
-                int randomY = random.Next(0, GridSize);
+                int randomX = random.Next(0, GridSize - 1);
+                int randomY = random.Next(0, GridSize - 1);
                 if (EntitiesGrid[randomX, randomY] == null)
                 {
                     EntitiesGrid[randomX, randomY] = CreateFoodEntity();
