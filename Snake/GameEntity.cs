@@ -38,6 +38,7 @@ namespace Snake
             SNAKE,
             SNAKE_BODY,
             FOOD,
+            BONUS_FOOD,
             GRID_TILE,
         }
 

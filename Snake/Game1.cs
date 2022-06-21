@@ -42,6 +42,10 @@ namespace Snake
         private bool WaitingForAutoMove;
         private float AutoMoveTimerStart;
 
+        private float BonusFoodDelay;
+        private bool WaitingForBonusFoodSpawn;
+        private float BonusFoodSpawnTimerStart;
+
         private bool FoodIsSpawnedOnGrid;
 
         private KeyboardState PreviousKeyboardState = Keyboard.GetState();
@@ -86,6 +90,10 @@ namespace Snake
             AutoMoveDelay = 500; // Milliseconds
             WaitingForAutoMove = false;
             AutoMoveTimerStart = 0;
+
+            BonusFoodDelay = 30000;
+            WaitingForBonusFoodSpawn = false;
+            BonusFoodSpawnTimerStart = 0;
             base.Initialize();
         }
 
@@ -100,6 +108,21 @@ namespace Snake
             if (IsGameOver)
                 return;
 
+            AutoMoveOnTimer(gameTime);
+            SpawnBonusFoodOnTimer(gameTime);
+
+            if (!FoodIsSpawnedOnGrid)
+            {
+                SpawnFood();
+            }
+            KeyboardInput();
+            AddSnakeBodiesToGrid();
+            UpdateEntityGridLocations();
+            base.Update(gameTime);
+        }
+
+        private void AutoMoveOnTimer(GameTime gameTime)
+        {
             if (!WaitingForAutoMove)
             {
                 AutoMoveTimerStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
@@ -113,15 +136,23 @@ namespace Snake
                     WaitingForAutoMove = false;
                 }
             }
+        }
 
-            if (!FoodIsSpawnedOnGrid)
+        private void SpawnBonusFoodOnTimer(GameTime gameTime)
+        {
+            if (!WaitingForBonusFoodSpawn)
             {
-                SpawnFood();
+                BonusFoodSpawnTimerStart = (float)gameTime.TotalGameTime.TotalMilliseconds;
+                WaitingForBonusFoodSpawn = true;
             }
-            KeyboardInput();
-            AddSnakeBodiesToGrid();
-            UpdateEntityGridLocations();
-            base.Update(gameTime);
+            else if (WaitingForAutoMove)
+            {
+                if ((float)gameTime.TotalGameTime.TotalMilliseconds - BonusFoodSpawnTimerStart > BonusFoodDelay)
+                {
+                    SpawnFood();
+                    WaitingForBonusFoodSpawn = false;
+                }
+            }
         }
 
         protected override void Draw(GameTime gameTime)
