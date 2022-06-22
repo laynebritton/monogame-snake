@@ -223,8 +223,33 @@ namespace Snake
 
         private void ChangeSnakeDirection(Directions.DIRECTIONS direction)
         {
+            if(IsDirectOppositeDirection(direction))
+            {
+                return;
+            }
             PlayerDirection = direction;
             MovePlayerInPlayerDirection();
+        }
+
+        private bool IsDirectOppositeDirection(Directions.DIRECTIONS direction)
+        {
+            if(PlayerDirection == Directions.DIRECTIONS.RIGHT && direction == Directions.DIRECTIONS.LEFT)
+            {
+                return true;
+            }
+            if (PlayerDirection == Directions.DIRECTIONS.LEFT && direction == Directions.DIRECTIONS.RIGHT)
+            {
+                return true;
+            }
+            if (PlayerDirection == Directions.DIRECTIONS.UP && direction == Directions.DIRECTIONS.DOWN)
+            {
+                return true;
+            }
+            if (PlayerDirection == Directions.DIRECTIONS.DOWN && direction == Directions.DIRECTIONS.UP)
+            {
+                return true;
+            }
+            return false;
         }
 
         private void MovePlayerInPlayerDirection()
